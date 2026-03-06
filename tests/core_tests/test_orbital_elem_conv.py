@@ -119,9 +119,7 @@ class TestHyperbolicAnomalies:
             nu = hyperbolic_to_true(H, e)
             assert abs(nu) < nu_max
 
-
 class TestHyperbolicCartesian:
-
     def test_hyperbolic_roundtrip_cartesian(self):
         """Hyperbolic state vector: convert to elements and back."""
         # Earth escape trajectory
