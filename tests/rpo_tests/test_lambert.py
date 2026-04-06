@@ -3,13 +3,8 @@ import pytest
 from poliastro.iod import izzo
 from poliastro import constants
 
-try:
-    from sentinel.rpo.lambert import lambert_izzo, calculate_delta_v
-except ImportError:
-    lambert_izzo = None
-    calculate_delta_v = None
+from sentinel.rpo.lambert import lambert_izzo, calculate_delta_v
 
-@pytest.mark.skipif(lambert_izzo is None, reason="Lambert solver not implemented yet")
 def test_lambert_izzo_vallado_ex5_2():
     # Vallado 4th Ed, Example 5-2, p. 353
     mu = 3.986004418e5 # Earth GM in km^3/s^2
@@ -27,7 +22,6 @@ def test_lambert_izzo_vallado_ex5_2():
     np.testing.assert_allclose(v1_sols[0], v1_expected, atol=1e-4)
     np.testing.assert_allclose(v2_sols[0], v2_expected, atol=1e-4)
 
-@pytest.mark.skipif(lambert_izzo is None, reason="Lambert solver not implemented yet")
 def test_lambert_izzo_vs_poliastro():
     mu = 398600.4418
     r1 = np.array([5000.0, 10000.0, 2100.0])
@@ -43,7 +37,6 @@ def test_lambert_izzo_vs_poliastro():
     np.testing.assert_allclose(v1_sols[0], v1_pol_val, atol=1e-8)
     np.testing.assert_allclose(v2_sols[0], v2_pol_val, atol=1e-8)
 
-@pytest.mark.skipif(calculate_delta_v is None, reason="ΔV calculator not implemented")
 def test_calculate_delta_v():
     v_init = np.array([1.0, 0.0, 0.0])
     v_final = np.array([0.0, 2.0, 0.0])
