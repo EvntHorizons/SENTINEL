@@ -57,18 +57,10 @@ def lambert_izzo(mu: float, r1: np.ndarray, r2: np.ndarray, tof: float, prograde
     
     for M in range(max_revs + 1):
         try:
-            # Low path (default)
-            v1_low, v2_low = izzo.lambert(mu, r1, r2, tof, M=M, prograde=prograde, low_path=True)
-            v1_sols.append(np.array(v1_low))
-            v2_sols.append(np.array(v2_low))
-            
-            if M > 0:
-                # High path (only exists for M > 0)
-                v1_high, v2_high = izzo.lambert(mu, r1, r2, tof, M=M, prograde=prograde, low_path=False)
-                v1_sols.append(np.array(v1_high))
-                v2_sols.append(np.array(v2_high))
+            for v1_branch, v2_branch in izzo._lambert(mu, r1, r2, tof, M, 35, 1e-8):
+                v1_sols.append(np.array(v1_branch))
+                v2_sols.append(np.array(v2_branch))
         except ValueError:
-            # Reached a point where no solution exists for this M
             pass
             
     return v1_sols, v2_sols

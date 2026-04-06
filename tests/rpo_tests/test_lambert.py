@@ -32,7 +32,8 @@ def test_lambert_izzo_vs_poliastro():
     v1_sols, v2_sols = lambert_izzo(mu, r1, r2, tof, prograde=True)
     
     # Run poliastro reference
-    v1_pol_val, v2_pol_val = izzo.lambert(mu, r1, r2, tof)
+    v_pol = list(izzo._lambert(mu, r1, r2, tof, 0, 35, 1e-8))
+    v1_pol_val, v2_pol_val = v_pol[0]
     
     np.testing.assert_allclose(v1_sols[0], v1_pol_val, atol=1e-8)
     np.testing.assert_allclose(v2_sols[0], v2_pol_val, atol=1e-8)
