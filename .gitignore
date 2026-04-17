@@ -1,1 +1,4 @@
 .venv/
+*.md
+!README.md
+!REFERENCES.md
